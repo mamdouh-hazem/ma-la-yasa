@@ -1,31 +1,4 @@
 (function () {
-  // book: opens, turns pages and closes on its own (no tap needed)
-  var book = document.getElementById('book');
-  var pagesEl = document.getElementById('bookPages');
-  var leaf = book.querySelector('.leaf'), front = book.querySelector('.leaf-front');
-  var pages = [1, 2, 3, 4, 5, 6, 7, 8].map(function (i) { return 'bp' + i + '.jpg'; });
-  pages.forEach(function (p) { var im = new Image(); im.src = p; });
-  var url = function (i) { return 'url(' + pages[i] + ')'; };
-  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var cur = 0;
-  function later(ms, fn) { setTimeout(fn, ms); }
-  function turn() {
-    var n = cur; while (n === cur) n = 1 + Math.floor(Math.random() * (pages.length - 1));
-    front.style.backgroundImage = url(cur); pagesEl.style.backgroundImage = url(n);
-    leaf.classList.remove('is-turn'); void leaf.offsetWidth; leaf.classList.add('is-turn');
-    cur = n;
-    later(1150, function () { leaf.classList.remove('is-turn'); });
-  }
-  function cycle() {
-    cur = 0; pagesEl.style.backgroundImage = url(0);
-    book.classList.add('is-open');
-    var t = 2200, k;
-    for (k = 0; k < 3; k++) { later(t, turn); t += 2300; }
-    later(t, function () { book.classList.remove('is-open'); });
-    later(t + 4200, cycle);
-  }
-  if (!still) later(2500, cycle);
-
   // table of contents: the 23 parts (v8)
   var parts = [
     'أساسيات لا غنى عنها',
